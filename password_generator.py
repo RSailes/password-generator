@@ -1,6 +1,5 @@
 import secrets
 import os
-import subprocess
 import pyperclip
 
 class PasswordGenerator:
