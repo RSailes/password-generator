@@ -12,3 +12,5 @@ The user will be presented with a menu full of options on modifying and saving t
 ## Dependencies
 - Latest version of Python or Java
 - Pyperclip module if using Python
+
+| Python version needs to be modified, I recommend using the Java version of this program.
