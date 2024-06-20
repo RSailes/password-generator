@@ -1,4 +1,5 @@
 # Password Generator
+_| NOTE: The Python version of this program needs to be modified, I recommend using the Java version._
 
 This password generator is able to generate as many unique passwords as you need. Capabilities include:
 - Changing how many passwords to generate and their length
@@ -12,5 +13,3 @@ The user will be presented with a menu full of options on modifying and saving t
 ## Dependencies
 - Latest version of Python or Java
 - Pyperclip module if using Python
-
-_| Python version needs to be modified, I recommend using the Java version of this program._
