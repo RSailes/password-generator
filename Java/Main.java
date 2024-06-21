@@ -1,4 +1,4 @@
-// Date Last Edited: 6/20/2024
+// Date Last Edited: 6/21/2024
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -122,15 +122,15 @@ public class Main {
                         continuePassOptions = true;
                         break;
     
-                    // case 3:
-                    //     passwordGen.saveToFile(userPasswords);
-                    //     break;
-                    
                     case 3:
+                        passwordGen.saveToFile(userPasswords);
+                        break;
+                    
+                    case 4:
                         passwordGen.copyToClipboard(userPasswords);
                         break;
     
-                    case 4:
+                    case 5:
                         continuePassGen = false;
                         break;
     

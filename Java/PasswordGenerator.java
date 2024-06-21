@@ -1,10 +1,16 @@
-// Date Last Edited: 6/20/2024
+// Date Last Edited: 6/21/2024
 
 import java.io.*;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.Toolkit;
 import java.awt.datatransfer.*;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class PasswordGenerator {
     
@@ -76,7 +82,7 @@ public class PasswordGenerator {
         for (int i = 0; i < passwordLength; i++) {
             int temp;
             for (int j = 0; j < 4; j++) {
-                if (includes[j] == false) {
+                if (!includes[j]) {
                     allChars[j] = "";
                 }
             }
@@ -113,29 +119,68 @@ public class PasswordGenerator {
         return passwords;
     }
 
+    public void writeToFile(ArrayList<String> passwords, File file, boolean append) throws FileNotFoundException, IOException {
+        PrintWriter pWrite = null;
+        if (append) {
+            pWrite = new PrintWriter(new FileWriter(file, true));
+        }
+        else {
+            LocalDateTime today = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy | hh:mm a");
+            String todayStr = today.format(formatter);
+            pWrite = new PrintWriter(file);
+            pWrite.println("Generated Passwords");
+            pWrite.println("Date: " + todayStr);
+            pWrite.println("Note: Handle this file with care. For your security, do not share these passwords with anyone.\n");
+        }
+        for (String password : passwords) {
+            pWrite.println(password);
+        }
+        pWrite.close();
+
+    }
+
     // Saving methods
-    // public void saveToFile(ArrayList<String> passwords) throws FileNotFoundException, IOException {
-    //     File file = new File(path);
-    //     PrintWriter printWriter = null;
-    //     if (file.createNewFile()) {
-    //         System.out.println("New file created...");
-    //         System.out.println("Path: " + path);
-    //         printWriter = new PrintWriter(file);
-    //         printWriter.println(">>> Your Passwords <<<");
-    //     }
-    //     else {
-    //         System.out.println("File already exists, adding to file...");
-    //         printWriter = new PrintWriter(new FileWriter(file, true));
-    //     }
+    public void saveToFile(ArrayList<String> passwords) throws FileNotFoundException, IOException {
+        File saveFile = new File("passwords.txt");
+        JFrame frame = new JFrame();
+        frame.setAlwaysOnTop(true);
+        
+        JFileChooser chooser = new JFileChooser();
+        chooser.setSelectedFile(saveFile);
+        chooser.setFileFilter(new FileNameExtensionFilter("*txt", "txt"));
+        
+        int returnVal = chooser.showSaveDialog(frame);
 
-    //     for (String password : passwords) {
-    //         printWriter.println(" " + password);
-    //     }
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            saveFile = chooser.getSelectedFile();
+            if (!saveFile.createNewFile()) {
+                int choice = JOptionPane.showConfirmDialog(frame, "Are you sure you want to overwrite this file's contents? \n(Answering NO will append your new password(s) to this file)\n\n", "Overwrite File", JOptionPane.YES_NO_CANCEL_OPTION);
+                if (choice == JOptionPane.YES_OPTION) {
+                    writeToFile(passwords, saveFile, false);
+                }
+                else if (choice == JOptionPane.NO_OPTION) {
+                    JOptionPane.showMessageDialog(frame, "Appending to file...");
+                    writeToFile(passwords, saveFile, true);
+                    JOptionPane.showMessageDialog(frame, "File Saved!");
+                }
+                else {
+                    System.out.println("\n>> File not saved. If this was done in error, try again.");
+                }
+            }
+            else {
+                writeToFile(passwords, saveFile, false);
+                JOptionPane.showMessageDialog(frame, "File Saved!");
+            }
+        }
+        else {
+            System.out.println("\n>> File not saved. If this was done in error, try again.");
+        }
 
-    //     printWriter.close();
+        frame.dispose();
+        
 
-    //     System.out.println("Password(s) Saved!");
-    // }
+     }
 
     public void copyToClipboard(ArrayList<String> passwords) {
         String allPasswords = "";
@@ -156,9 +201,9 @@ public class PasswordGenerator {
         System.out.println("\n>>> Options");
         System.out.println(" 1. Generate Passwords");
         System.out.println(" 2. Edit Generation Options");
-        // System.out.println(" 3. Save Password(s) to File");
-        System.out.println(" 3. Copy Password(s) to Clipboard");
-        System.out.println(" 4. Exit");
+        System.out.println(" 3. Save Password(s) to File");
+        System.out.println(" 4. Copy Password(s) to Clipboard");
+        System.out.println(" 5. Exit");
         System.out.print("> Option #: ");
     }
 
@@ -190,7 +235,7 @@ public class PasswordGenerator {
 
         System.out.print("  > Option #: ");
 
-        if (includeUpper == false && includeLower == false && includeDigits == false && includeSpecialChars == false) {
+        if (!includeUpper && !includeLower && !includeDigits && !includeSpecialChars) {
             System.out.println("\n   Error: Must include at least one type of character | Options Reset");
             this.setUpper(true);
             this.setLower(true);
