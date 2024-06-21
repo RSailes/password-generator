@@ -114,29 +114,28 @@ public class PasswordGenerator {
     }
 
     // Saving methods
-    public void saveToFile(ArrayList<String> passwords) throws FileNotFoundException, IOException {
-        String path = "C:\\Users\\roman\\OneDrive\\Desktop\\coding\\java\\mini programs\\password generator\\passwords.txt";
-        File file = new File(path);
-        PrintWriter printWriter = null;
-        if (file.createNewFile()) {
-            System.out.println("New file created...");
-            System.out.println("Path: " + path);
-            printWriter = new PrintWriter(file);
-            printWriter.println(">>> Your Passwords <<<");
-        }
-        else {
-            System.out.println("File already exists, adding to file...");
-            printWriter = new PrintWriter(new FileWriter(file, true));
-        }
+    // public void saveToFile(ArrayList<String> passwords) throws FileNotFoundException, IOException {
+    //     File file = new File(path);
+    //     PrintWriter printWriter = null;
+    //     if (file.createNewFile()) {
+    //         System.out.println("New file created...");
+    //         System.out.println("Path: " + path);
+    //         printWriter = new PrintWriter(file);
+    //         printWriter.println(">>> Your Passwords <<<");
+    //     }
+    //     else {
+    //         System.out.println("File already exists, adding to file...");
+    //         printWriter = new PrintWriter(new FileWriter(file, true));
+    //     }
 
-        for (String password : passwords) {
-            printWriter.println(" " + password);
-        }
+    //     for (String password : passwords) {
+    //         printWriter.println(" " + password);
+    //     }
 
-        printWriter.close();
+    //     printWriter.close();
 
-        System.out.println("Password(s) Saved!");
-    }
+    //     System.out.println("Password(s) Saved!");
+    // }
 
     public void copyToClipboard(ArrayList<String> passwords) {
         String allPasswords = "";
@@ -157,9 +156,9 @@ public class PasswordGenerator {
         System.out.println("\n>>> Options");
         System.out.println(" 1. Generate Passwords");
         System.out.println(" 2. Edit Generation Options");
-        System.out.println(" 3. Save Password(s) to File");
-        System.out.println(" 4. Copy Password(s) to Clipboard");
-        System.out.println(" 5. Exit");
+        // System.out.println(" 3. Save Password(s) to File");
+        System.out.println(" 3. Copy Password(s) to Clipboard");
+        System.out.println(" 4. Exit");
         System.out.print("> Option #: ");
     }
 
